@@ -1,0 +1,5 @@
+com\jbhunt\pickleballmatchmaker\service\MatchmakerService.class
+com\jbhunt\pickleballmatchmaker\mongo\PickleballUser.class
+com\jbhunt\pickleballmatchmaker\repository\PickleballUserRepository.class
+com\jbhunt\pickleballmatchmaker\Application.class
+com\jbhunt\pickleballmatchmaker\controller\MatchmakerController.class

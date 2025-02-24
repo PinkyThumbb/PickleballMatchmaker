@@ -1,0 +1,52 @@
+package com.jbhunt.pickleballmatchmaker;
+
+import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
+import com.jbhunt.pickleballmatchmaker.repository.PickleballUserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class MatchmakerControllerIT extends BaseIntegrationTest {
+
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    private PickleballUserRepository repository;
+
+    @BeforeEach
+    public void setUp() {
+        repository.deleteAll();
+    }
+
+    @Test
+    public void testCreateNewMatchmaker() {
+        PickleballUser user = new PickleballUser(null, "John Doe", 25, 3.5);
+
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(repository.findAll()).hasSize(1);
+    }
+
+    @Test
+    public void testCreateNewMatchmakerValidationFailure() {
+        PickleballUser user = new PickleballUser(null, "Ben", 12, null);
+
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(repository.findAll()).isEmpty();
+    }
+}

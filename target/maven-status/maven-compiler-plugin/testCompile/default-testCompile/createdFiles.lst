@@ -1,0 +1,4 @@
+com\jbhunt\pickleballmatchmaker\BaseIntegrationTest.class
+com\jbhunt\pickleballmatchmaker\MatchmakerControllerIT.class
+com\jbhunt\pickleballmatchmaker\controller\MatchmakerControllerTest.class
+com\jbhunt\pickleballmatchmaker\service\MatchmakerServiceTest.class

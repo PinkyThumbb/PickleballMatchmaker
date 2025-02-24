@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ws_bensprojects_pickleballmatchmaker
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/local-testing
+      database: local-testing
+server:
+  servlet:
+    context-path: /ws_bensprojects_pickleballmatchmaker
+  port: 8080
+  max-http-request-header-size: 16KB
