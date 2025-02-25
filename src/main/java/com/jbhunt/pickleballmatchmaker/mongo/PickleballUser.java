@@ -2,6 +2,7 @@ package com.jbhunt.pickleballmatchmaker.mongo;
 
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,10 @@ public class PickleballUser {
     @Id
     private String id;
 
+    @NotBlank(message = "userName is mandatory")
+    @Indexed(unique = true)
+    private String userName;
+
     @NotBlank(message = "Name is mandatory")
     private String name;
 
@@ -26,4 +31,7 @@ public class PickleballUser {
 
     @NotNull(message = "Skill level is mandatory")
     private Double skillLevel;
+
+    @NotNull(message = "Zip code is mandatory")
+    private int zipCode;
 }

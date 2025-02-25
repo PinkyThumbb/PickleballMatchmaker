@@ -29,8 +29,8 @@ public class MatchmakerServiceTest {
 
     @Test
     public void testCreateNewMatchmaker() {
-        PickleballUser user = new PickleballUser(null, "John Doe", 25, 3.5);
-        PickleballUser savedUser = new PickleballUser("1", "John Doe", 25, 3.5);
+        PickleballUser user = new PickleballUser(null,"DoeHunter", "John Doe", 25, 3.5,1);
+        PickleballUser savedUser = new PickleballUser("1","DoeHunter", "John Doe", 25, 3.5,1);
 
         when(repository.save(any(PickleballUser.class))).thenReturn(savedUser);
 

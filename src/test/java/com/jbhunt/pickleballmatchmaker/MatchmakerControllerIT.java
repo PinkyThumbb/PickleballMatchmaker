@@ -32,7 +32,7 @@ public class MatchmakerControllerIT extends BaseIntegrationTest {
 
     @Test
     public void testCreateNewMatchmaker() {
-        PickleballUser user = new PickleballUser(null, "John Doe", 25, 3.5);
+        PickleballUser user = new PickleballUser(null,"DoeHunter", "John Doe", 25, 3.5,1);
 
         ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
 
@@ -42,7 +42,7 @@ public class MatchmakerControllerIT extends BaseIntegrationTest {
 
     @Test
     public void testCreateNewMatchmakerValidationFailure() {
-        PickleballUser user = new PickleballUser(null, "Ben", 12, null);
+        PickleballUser user = new PickleballUser(null,"DoeHunter", "Ben", 12, null,1);
 
         ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
 

@@ -31,7 +31,7 @@ public class MatchmakerControllerTest {
 
     @Test
     public void testCreateNewMatchmaker() {
-        PickleballUser user = new PickleballUser(null, "John Doe", 25, 3.5);
+        PickleballUser user = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72758);
 
         when(matchmakerService.createNewMatchmaker(any(PickleballUser.class))).thenReturn(Map.of("id", "1"));
 
@@ -43,7 +43,7 @@ public class MatchmakerControllerTest {
 
     @Test
     public void testCreateNewMatchmakerValidationFailure() {
-        PickleballUser user = new PickleballUser(null, "", null, null);
+        PickleballUser user = new PickleballUser(null, null, "", null, null, 1);
 
         when(matchmakerService.createNewMatchmaker(any(PickleballUser.class))).thenThrow(new RuntimeException("Validation failed"));
 
