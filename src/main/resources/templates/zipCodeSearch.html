@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Search Players by Zip Code</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h1>Search Players by Zip Code</h1>
+<form action="/ws_bensprojects_pickleballmatchmaker/searchPlayersByZipCode" method="get">
+  <label for="zipCode">Zip Code:</label>
+  <input type="text" id="zipCode" name="zipCode" required>
+  <button type="submit">Search</button>
+</form>
+<div th:if="${players != null}">
+  <h2>Players List</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Zip Code</th>
+      <th>DUPR Skill Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player : ${players}">
+      <td th:text="${player.userName}">Username</td>
+      <td th:text="${player.name}">Name</td>
+      <td th:text="${player.zipCode}">Zip Code</td>
+      <td th:text="${player.skillLevel}">Skill Level</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div th:if="${error != null}" th:text="${error}"></div>
+<button onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
+</body>
+</html>

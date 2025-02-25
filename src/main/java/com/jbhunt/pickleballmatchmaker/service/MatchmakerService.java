@@ -17,7 +17,7 @@ import java.util.Map;
 public class MatchmakerService {
     private final PickleballUserRepository pickleballUserRepository;
 
-    public Map<String, String> createNewMatchmaker(PickleballUser pickleballUser) {
+    public Map<String, String> createUser(PickleballUser pickleballUser) {
         try {
             Map<String, String> response = new HashMap<>();
             response.put("id", pickleballUserRepository.save(pickleballUser).getId());
@@ -37,5 +37,9 @@ public class MatchmakerService {
 
     public List<PickleballUser> findPlayersByUserName(String userName) {
         return pickleballUserRepository.findByUserName(userName);
+    }
+
+    public List<PickleballUser> findPlayersBySkillLevelRange(double skillLevelLower, double skillLevelUpper) {
+        return pickleballUserRepository.findBySkillLevelBetween(skillLevelLower, skillLevelUpper);
     }
 }

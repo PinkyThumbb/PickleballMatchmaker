@@ -34,7 +34,7 @@ public class MatchmakerServiceTest {
 
         when(repository.save(any(PickleballUser.class))).thenReturn(savedUser);
 
-        Map<String, String> result = matchmakerService.createNewMatchmaker(user);
+        Map<String, String> result = matchmakerService.createUser(user);
 
         assertThat(result).isEqualTo(Map.of("id", "1"));
     }

@@ -32,9 +32,9 @@ public class MatchmakerControllerIT extends BaseIntegrationTest {
 
     @Test
     public void testCreateNewMatchmaker() {
-        PickleballUser user = new PickleballUser(null,"DoeHunter", "John Doe", 25, 3.5,1);
+        PickleballUser user = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701);
 
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/createUser", user, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(repository.findAll()).hasSize(1);
@@ -42,9 +42,9 @@ public class MatchmakerControllerIT extends BaseIntegrationTest {
 
     @Test
     public void testCreateNewMatchmakerValidationFailure() {
-        PickleballUser user = new PickleballUser(null,"DoeHunter", "Ben", 12, null,1);
+        PickleballUser user = new PickleballUser(null, "DoeHunter", "Ben", 12, null, 72701);
 
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/matchmaker", user, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:" + port + "/ws_bensprojects_pickleballmatchmaker/createUser", user, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(repository.findAll()).isEmpty();

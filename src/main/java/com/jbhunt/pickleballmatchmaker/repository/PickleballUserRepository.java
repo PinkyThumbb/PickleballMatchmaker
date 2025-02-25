@@ -7,7 +7,6 @@ import java.util.List;
 public interface PickleballUserRepository extends MongoRepository<PickleballUser, String> {
     List<PickleballUser> findByZipCode(int zipCode);
     List<PickleballUser> findByUserName(String userName);
-    List<PickleballUser> findByName(String name);
-    List<PickleballUser> findByAge(int age);
-    List<PickleballUser> findBySkillLevel(int skillLevel);
+    List<PickleballUser> findBySkillLevelBetween(double minSkillLevel, double maxSkillLevel);
+
 }

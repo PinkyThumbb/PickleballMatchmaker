@@ -8,21 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@RestController
+@Controller
 @AllArgsConstructor
 public class MatchmakerController {
     private final MatchmakerService matchmakerService;
 
-    @PostMapping("/matchmaker")
-    public ResponseEntity<Map<String,String>> createNewMatchmaker(@RequestBody @Valid PickleballUser pickleballUser) {
+    @PostMapping("/createUser")
+    public ResponseEntity<Map<String,String>> createUser(@RequestBody @Valid PickleballUser pickleballUser) {
         try {
-            return new ResponseEntity<>(matchmakerService.createNewMatchmaker(pickleballUser), HttpStatus.CREATED);
+            return new ResponseEntity<>(matchmakerService.createUser(pickleballUser), HttpStatus.CREATED);
         } catch (DuplicateKeyException e) {
             log.error("Unique username conflict", e);
             return new ResponseEntity<>(Map.of("error", "Username is not unique!"), HttpStatus.CONFLICT);
@@ -32,13 +34,16 @@ public class MatchmakerController {
         }
     }
 
-    @GetMapping("/findPlayersByZipCode")
-    public ResponseEntity<List<PickleballUser>> findPlayersByZipCode(@RequestParam("zipCode") int zipCode) {
+    @GetMapping("/searchPlayersByZipCode")
+    public String findPlayersByZipCode(@RequestParam("zipCode") String zipCode, Model model) {
         try {
-            return new ResponseEntity<>(matchmakerService.findPlayersByZipCode(zipCode), HttpStatus.CREATED);
-        } catch (Exception e) {
-            log.error("Unexpected error", e);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            int zip = Integer.parseInt(zipCode);
+            List<PickleballUser> players = matchmakerService.findPlayersByZipCode(zip);
+            model.addAttribute("players", players);
+            return "zipCodeSearch";
+        } catch (NumberFormatException e) {
+            model.addAttribute("error", "Invalid zip code format");
+            return "zipCodeSearch";
         }
     }
 
@@ -46,6 +51,16 @@ public class MatchmakerController {
     public ResponseEntity<List<PickleballUser>> findPlayersByUserName(@RequestParam("userName") String userName) {
         try {
             return new ResponseEntity<>(matchmakerService.findPlayersByUserName(userName), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Unexpected error", e);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/findPlayersBySkillLevel")
+    public ResponseEntity<List<PickleballUser>> findPlayersBySkillLevel(@RequestParam("skillLevelLower") double skillLevelLower, @RequestParam("skillLevelUpper") double skillLevelUpper) {
+        try {
+            return new ResponseEntity<>(matchmakerService.findPlayersBySkillLevelRange(skillLevelLower, skillLevelUpper), HttpStatus.OK);
         } catch (Exception e) {
             log.error("Unexpected error", e);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

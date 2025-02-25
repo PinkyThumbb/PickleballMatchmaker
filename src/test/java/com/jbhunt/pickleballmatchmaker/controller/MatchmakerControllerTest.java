@@ -33,9 +33,9 @@ public class MatchmakerControllerTest {
     public void testCreateNewMatchmaker() {
         PickleballUser user = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72758);
 
-        when(matchmakerService.createNewMatchmaker(any(PickleballUser.class))).thenReturn(Map.of("id", "1"));
+        when(matchmakerService.createUser(any(PickleballUser.class))).thenReturn(Map.of("id", "1"));
 
-        ResponseEntity<Map<String, String>> response = matchmakerController.createNewMatchmaker(user);
+        ResponseEntity<Map<String, String>> response = matchmakerController.createUser(user);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(Map.of("id", "1"));
@@ -45,9 +45,9 @@ public class MatchmakerControllerTest {
     public void testCreateNewMatchmakerValidationFailure() {
         PickleballUser user = new PickleballUser(null, null, "", null, null, 1);
 
-        when(matchmakerService.createNewMatchmaker(any(PickleballUser.class))).thenThrow(new RuntimeException("Validation failed"));
+        when(matchmakerService.createUser(any(PickleballUser.class))).thenThrow(new RuntimeException("Validation failed"));
 
-        ResponseEntity<Map<String, String>> response = matchmakerController.createNewMatchmaker(user);
+        ResponseEntity<Map<String, String>> response = matchmakerController.createUser(user);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isEqualTo(Map.of("error", "Error saving user to database"));
