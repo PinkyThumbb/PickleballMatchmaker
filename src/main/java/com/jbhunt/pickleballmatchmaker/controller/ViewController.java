@@ -15,4 +15,9 @@ public class ViewController {
     public String showHelloWorldPage(Model model) {
         return "helloWorld";
     }
+
+    @GetMapping("/skillLevelSearch")
+    public String showFindPlayersBySkillLevelPage(Model model) {
+        return "skillLevelSearch";
+    }
 }

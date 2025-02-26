@@ -57,13 +57,25 @@ public class MatchmakerController {
         }
     }
 
+//    @GetMapping("/findPlayersBySkillLevel")
+//    public ResponseEntity<List<PickleballUser>> findPlayersBySkillLevel(@RequestParam("skillLevelLower") double skillLevelLower, @RequestParam("skillLevelUpper") double skillLevelUpper) {
+//        try {
+//            return new ResponseEntity<>(matchmakerService.findPlayersBySkillLevelRange(skillLevelLower, skillLevelUpper), HttpStatus.OK);
+//        } catch (Exception e) {
+//            log.error("Unexpected error", e);
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @GetMapping("/findPlayersBySkillLevel")
-    public ResponseEntity<List<PickleballUser>> findPlayersBySkillLevel(@RequestParam("skillLevelLower") double skillLevelLower, @RequestParam("skillLevelUpper") double skillLevelUpper) {
+    public String findPlayersBySkillLevel(@RequestParam("skillLevelLower") double skillLevelLower, @RequestParam("skillLevelUpper") double skillLevelUpper, Model model) {
         try {
-            return new ResponseEntity<>(matchmakerService.findPlayersBySkillLevelRange(skillLevelLower, skillLevelUpper), HttpStatus.OK);
+            List<PickleballUser> players = matchmakerService.findPlayersBySkillLevelRange(skillLevelLower, skillLevelUpper);
+            model.addAttribute("players", players);
+            return "skillLevelSearch";
         } catch (Exception e) {
-            log.error("Unexpected error", e);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            model.addAttribute("error", "Random error");
+            return "skillLevelSearch";
         }
     }
 }

@@ -45,8 +45,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:6.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:6.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:6.4.2" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.4.2" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:6.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:6.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:6.2.1" level="project" />
@@ -81,6 +79,12 @@
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.6.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:6.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:6.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:6.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:6.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:mongodb:1.19.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:3.4.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:3.4.1" level="project" />
@@ -109,9 +113,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-junit-jupiter:5.14.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.skyscreamer:jsonassert:1.5.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-core:6.2.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:6.2.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:6.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.10.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:junit-jupiter:1.19.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:testcontainers:1.19.0" level="project" />

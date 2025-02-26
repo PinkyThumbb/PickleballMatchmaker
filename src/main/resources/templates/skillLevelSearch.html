@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Players by Skill Level</title>
+</head>
+<body>
+<h1>Find Players by Skill Level</h1>
+<form action="/ws_bensprojects_pickleballmatchmaker/findPlayersBySkillLevel" method="get">
+  <label for="skillLevelLower">Skill Level Lower:</label>
+  <input type="number" id="skillLevelLower" name="skillLevelLower" step="0.1" required>
+  <br>
+  <label for="skillLevelUpper">Skill Level Upper:</label>
+  <input type="number" id="skillLevelUpper" name="skillLevelUpper" step="0.1" required>
+  <br>
+  <button type="submit">Search</button>
+</form>
+<div th:if="${players != null}">
+  <h2>Players List</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Zip Code</th>
+      <th>DUPR Skill Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player : ${players}">
+      <td th:text="${player.userName}">Username</td>
+      <td th:text="${player.name}">Name</td>
+      <td th:text="${player.zipCode}">Zip Code</td>
+      <td th:text="${player.skillLevel}">Skill Level</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
