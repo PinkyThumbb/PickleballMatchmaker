@@ -38,6 +38,13 @@
         button:hover {
             background-color: #0056b3;
         }
+        .logout-button {
+            background-color: #dc3545;
+            margin-top: 30px;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +53,7 @@
     <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/zipCodeSearch'">Find Players by Zip Code</button>
     <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/skillLevelSearch'">Find Players by Skill Level</button>
     <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/userNameSearch'">Find Players by Username</button>
+    <button class="logout-button" onclick="location.href='/ws_bensprojects_pickleballmatchmaker/login'">Logout</button>
 </div>
 </body>
 </html>

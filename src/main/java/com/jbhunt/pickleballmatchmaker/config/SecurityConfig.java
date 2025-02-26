@@ -28,7 +28,11 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout
+                        .logoutUrl("/ws_bensprojects_pickleballmatchmaker/login")
+                        .logoutSuccessUrl("/ws_bensprojects_pickleballmatchmaker/login")
+                        .permitAll()
+                );
         return http.build();
     }
 
