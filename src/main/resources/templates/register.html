@@ -35,7 +35,7 @@
             font-weight: bold;
             color: #555;
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="password"], input[type="number"] {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -74,6 +74,10 @@
     <h1>Register</h1>
     <form th:action="@{/register}" method="post">
         <div><label> Username: <input type="text" name="username" required/> </label></div>
+        <div><label> Full Name: <input type="text" name="fullName" required/> </label></div>
+        <div><label> Age: <input type="number" name="age" required/> </label></div>
+        <div><label> Zip Code: <input type="text" name="zipCode" required/> </label></div>
+        <div><label> Skill Rating: <input type="number" name="skillRating" step="0.1" required/> </label></div>
         <div><label> Password: <input type="password" name="password" required/> </label></div>
         <div><input type="submit" value="Register"/></div>
     </form>

@@ -1,37 +1,46 @@
 package com.jbhunt.pickleballmatchmaker.service;
 
+import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
+import com.jbhunt.pickleballmatchmaker.repository.PickleballUserRepository;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
+@AllArgsConstructor
 public class UserService {
-
-    private final InMemoryUserDetailsManager userDetailsManager;
-    private final PasswordEncoder passwordEncoder;
+    private final PickleballUserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public UserService(InMemoryUserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder) {
-        this.userDetailsManager = userDetailsManager;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private PasswordEncoder passwordEncoder;
 
-    public void saveUser(String username, String password) {
-        if (userDetailsManager.userExists(username)) {
+    public void saveUser(String username, String fullName, int age, String zipCode, double skillRating, String password) {
+        log.info("Saving user: {}, {}, {}, {}, {}, {}", username, fullName, age, zipCode, skillRating, password);
+        if (!userRepository.findByUserName(username).isEmpty()) {
             throw new IllegalArgumentException("User already exists");
         }
-        UserDetails user = User.withUsername(username)
-                .password(passwordEncoder.encode(password))
-                .roles("USER")
-                .build();
-        userDetailsManager.createUser(user);
+        PickleballUser user = new PickleballUser();
+        user.setUserName(username);
+        user.setName(fullName);
+        user.setAge(age);
+        user.setZipCode(Integer.parseInt(zipCode));
+        user.setSkillLevel(skillRating);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 
     public boolean authenticate(String username, String password) {
-        UserDetails userDetails = userDetailsManager.loadUserByUsername(username);
-        return userDetails != null && passwordEncoder.matches(password, userDetails.getPassword());
+        try {
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            return passwordEncoder.matches(password, userDetails.getPassword());
+        } catch (UsernameNotFoundException e) {
+            return false;
+        }
     }
 }

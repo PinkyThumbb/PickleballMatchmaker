@@ -35,6 +35,9 @@ public class PickleballUser {
     @NotNull(message = "Zip code is mandatory")
     private int zipCode;
 
+    @NotNull
+    private String password;
+
     public String getUserName() {
         return userName;
     }
