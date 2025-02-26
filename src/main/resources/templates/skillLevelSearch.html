@@ -3,38 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <title>Find Players by Skill Level</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 600px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label {
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="number"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .return-home {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #ccc;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .return-home:hover {
+      background-color: #aaa;
+    }
+  </style>
 </head>
 <body>
-<h1>Find Players by Skill Level</h1>
-<form action="/ws_bensprojects_pickleballmatchmaker/findPlayersBySkillLevel" method="get">
-  <label for="skillLevelLower">Skill Level Lower:</label>
-  <input type="number" id="skillLevelLower" name="skillLevelLower" step="0.1" required>
-  <br>
-  <label for="skillLevelUpper">Skill Level Upper:</label>
-  <input type="number" id="skillLevelUpper" name="skillLevelUpper" step="0.1" required>
-  <br>
-  <button type="submit">Search</button>
-</form>
-<div th:if="${players != null}">
-  <h2>Players List</h2>
-  <table>
-    <thead>
-    <tr>
-      <th>Username</th>
-      <th>Name</th>
-      <th>Zip Code</th>
-      <th>DUPR Skill Rating</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="player : ${players}">
-      <td th:text="${player.userName}">Username</td>
-      <td th:text="${player.name}">Name</td>
-      <td th:text="${player.zipCode}">Zip Code</td>
-      <td th:text="${player.skillLevel}">Skill Level</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <h1>Find Players by Skill Level</h1>
+  <form action="/ws_bensprojects_pickleballmatchmaker/findPlayersBySkillLevel" method="get">
+    <label for="skillLevelLower">Skill Level Lower:</label>
+    <input type="number" id="skillLevelLower" name="skillLevelLower" step="0.1" required>
+    <br>
+    <label for="skillLevelUpper">Skill Level Upper:</label>
+    <input type="number" id="skillLevelUpper" name="skillLevelUpper" step="0.1" required>
+    <br>
+    <button type="submit">Search</button>
+  </form>
+  <div th:if="${players != null}">
+    <h2>Players List</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Zip Code</th>
+        <th>DUPR Skill Rating</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="player : ${players}">
+        <td th:text="${player.userName}">Username</td>
+        <td th:text="${player.name}">Name</td>
+        <td th:text="${player.zipCode}">Zip Code</td>
+        <td th:text="${player.skillLevel}">Skill Level</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="return-home" onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
 </div>
 </body>
 </html>

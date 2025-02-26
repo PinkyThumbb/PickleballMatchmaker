@@ -10,14 +10,12 @@ public class ViewController {
     public String showFindPlayersByZipCodePage(Model model) {
         return "zipCodeSearch";
     }
-
-    @GetMapping("/helloWorld")
-    public String showHelloWorldPage(Model model) {
-        return "helloWorld";
-    }
-
     @GetMapping("/skillLevelSearch")
     public String showFindPlayersBySkillLevelPage(Model model) {
         return "skillLevelSearch";
+    }
+    @GetMapping("/userNameSearch")
+    public String showFindPlayersByUserNamePage(Model model) {
+        return "userNameSearch";
     }
 }

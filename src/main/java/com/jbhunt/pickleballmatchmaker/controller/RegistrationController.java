@@ -23,4 +23,5 @@ public class RegistrationController {
         userService.saveUser(username, password);
         return "redirect:/login";
     }
+
 }
