@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -26,10 +25,11 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutUrl("/ws_bensprojects_pickleballmatchmaker/login")
+                        .logoutUrl("/ws_bensprojects_pickleballmatchmaker/logout")
                         .logoutSuccessUrl("/ws_bensprojects_pickleballmatchmaker/login")
                         .permitAll()
                 );

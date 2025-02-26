@@ -1,7 +1,6 @@
 package com.jbhunt.pickleballmatchmaker.controller;
 
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
-import com.jbhunt.pickleballmatchmaker.repository.PickleballUserRepository;
 import com.jbhunt.pickleballmatchmaker.service.MatchmakerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ public class MatchmakerControllerTest {
 
     @Test
     public void testCreateNewMatchmaker() {
-        PickleballUser user = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72758);
+        PickleballUser user = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72758,"admin");
 
         when(matchmakerService.createUser(any(PickleballUser.class))).thenReturn(Map.of("id", "1"));
 
@@ -43,7 +42,7 @@ public class MatchmakerControllerTest {
 
     @Test
     public void testCreateNewMatchmakerValidationFailure() {
-        PickleballUser user = new PickleballUser(null, null, "", null, null, 1);
+        PickleballUser user = new PickleballUser(null, null, "", null, null, 1,"admin");
 
         when(matchmakerService.createUser(any(PickleballUser.class))).thenThrow(new RuntimeException("Validation failed"));
 

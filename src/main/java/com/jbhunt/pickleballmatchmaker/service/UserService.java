@@ -21,7 +21,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public void saveUser(String username, String fullName, int age, String zipCode, double skillRating, String password) {
-        log.info("Saving user: {}, {}, {}, {}, {}, {}", username, fullName, age, zipCode, skillRating, password);
         if (!userRepository.findByUserName(username).isEmpty()) {
             throw new IllegalArgumentException("User already exists");
         }

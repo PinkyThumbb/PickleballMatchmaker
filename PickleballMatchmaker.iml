@@ -79,6 +79,52 @@
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.6.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:4.23.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-api:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jspecify:jspecify:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.auto.service:auto-service-annotations:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-chromium-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-json:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-manager:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-devtools-v125:4.23.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-devtools-v126:4.23.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-devtools-v127:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-devtools-v85:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-http:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: dev.failsafe:failsafe:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:33.3.1-jre" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:failureaccess:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.checkerframework:checker-qual:3.43.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.28.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.j2objc:j2objc-annotations:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry.semconv:opentelemetry-semconv:1.25.0-alpha" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-api:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-context:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-exporter-logging:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-common:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:1.43.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.opentelemetry:opentelemetry-api-incubator:1.43.0-alpha" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-trace:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-metrics:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: io.opentelemetry:opentelemetry-sdk-logs:1.43.0" level="project" />
+    <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.15.11" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-os:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-exec:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:4.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-support:4.25.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:7.10.2" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.16" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.82" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.webjars:jquery:3.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:6.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.4.2" level="project" />
@@ -96,7 +142,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:accessors-smart:2.5.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:9.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.26.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.15.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.awaitility:awaitility:4.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest:2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter:5.11.4" level="project" />
@@ -118,7 +163,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:testcontainers:1.19.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-compress:1.23.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.rnorth.duct-tape:duct-tape:1.0.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains:annotations:17.0.0" level="project" />
