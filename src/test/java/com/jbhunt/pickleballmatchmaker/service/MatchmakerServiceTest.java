@@ -28,7 +28,7 @@ public class MatchmakerServiceTest {
     }
 
     @Test
-    public void testCreateNewMatchmaker() {
+    public void testCreateNewUser() {
         PickleballUser user = new PickleballUser(null,"DoeHunter", "John Doe", 25, 3.5,1,"admin");
         PickleballUser savedUser = new PickleballUser("1","DoeHunter", "John Doe", 25, 3.5,1,"admin");
 
