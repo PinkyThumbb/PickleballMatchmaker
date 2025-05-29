@@ -1,5 +1,6 @@
 package com.jbhunt.pickleballmatchmaker.controller;
 
+import com.jbhunt.pickleballmatchmaker.mongo.MatchHistory;
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
 import com.jbhunt.pickleballmatchmaker.service.MatchmakerService;
 import jakarta.validation.Valid;
@@ -61,11 +62,24 @@ public class MatchmakerController {
         }
     }
 
-    @GetMapping("/viewPlayerMatchHistory")
-    public String viewPlayerMatchHistory(@RequestParam("playerId") String playerId, Model model) {
+    @GetMapping("/viewPlayerMatchHistory") public String viewPlayerMatchHistory(@RequestParam("playerId") String playerId, @RequestParam(defaultValue = "0") int page, Model model)
+    {
         try {
             List<PickleballUser> player = matchmakerService.findPlayersByUserName(playerId);
-            model.addAttribute("matchHistory", player.get(0).getMatchHistory());
+            List <MatchHistory> matchHistory = player.get(0).getMatchHistory();
+            // Sort match history by date in descending order
+            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+            // Paginate match history
+            int pageSize = 10;
+            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+            int startIndex = page * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+            model.addAttribute("matchHistory", paginatedHistory);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
             model.addAttribute("playerName", player.get(0).getName());
             return "matchHistory";
         } catch (Exception e) {
@@ -75,11 +89,52 @@ public class MatchmakerController {
     }
 
     @GetMapping("/viewMatchHistory")
-    public String viewMatchHistory(Model model) {
+    public String viewMatchHistory(@RequestParam(defaultValue = "0") int page, Model model) {
         try {
             var auth = SecurityContextHolder.getContext().getAuthentication();
             List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
-            model.addAttribute("matchHistory", player.get(0).getMatchHistory());
+            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+
+            // Sort match history by date in descending order
+            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+            // Paginate match history
+            int pageSize = 10;
+            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+            int startIndex = page * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+            model.addAttribute("matchHistory", paginatedHistory);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+            return "matchHistory";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve match history.");
+            return "matchHistory";
+        }
+    }
+
+    @GetMapping("/viewMatchHistoryPageable")
+    public String viewMatchHistoryPageable(@RequestParam(defaultValue = "0") int page, Model model) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
+            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+
+            // Sort match history by date in descending order
+            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+            // Paginate match history
+            int pageSize = 10;
+            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+            int startIndex = page * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+            model.addAttribute("matchHistory", paginatedHistory);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
             return "matchHistory";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to retrieve match history.");
