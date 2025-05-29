@@ -80,7 +80,7 @@ public class MatchmakerE2ETest {
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "USER")
     public void testLoginAndSearchByUserName() {
-        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin");
+        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin",null);
         when(matchmakerService.findPlayersByUserName(anyString())).thenReturn(Collections.singletonList(mockUser));
 
         WebElement usernameField = driver.findElement(By.name("username"));
@@ -113,7 +113,7 @@ public class MatchmakerE2ETest {
     @WithMockUser(username = "admin", password = "admin", roles = "USER")
     public void testLoginAndSearchByZip() {
         MatchmakerService matchmakerService = mock(MatchmakerService.class);
-        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin");
+        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin",null);
         when(matchmakerService.findPlayersByZipCode(anyInt())).thenReturn(Collections.singletonList(mockUser));
 
         WebElement usernameField = driver.findElement(By.name("username"));
@@ -145,7 +145,7 @@ public class MatchmakerE2ETest {
     @WithMockUser(username = "admin", password = "admin", roles = "USER")
     public void testLoginAndSearchBySkillLevel() {
         MatchmakerService matchmakerService = mock(MatchmakerService.class);
-        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin");
+        PickleballUser mockUser = new PickleballUser(null, "DoeHunter", "John Doe", 25, 3.5, 72701, "admin",null);
         when(matchmakerService.findPlayersByZipCode(anyInt())).thenReturn(Collections.singletonList(mockUser));
 
         WebElement usernameField = driver.findElement(By.name("username"));
