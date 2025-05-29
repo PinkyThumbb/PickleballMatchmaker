@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Match History</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 600px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Match History</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Opponent Name</th>
+      <th>Opponent Rating</th>
+      <th>Win</th>
+      <th>Updated Skill Level</th>
+      <th>Match Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="match : ${matchHistory}">
+      <td th:text="${match.opponentName}"></td>
+      <td th:text="${match.opponentRating}"></td>
+      <td th:text="${match.win}"></td>
+      <td th:text="${match.updatedSkillLevel}"></td>
+      <td th:text="${match.matchDate}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="message" th:if="${error != null}" th:text="${error}"></div>
+  <button class="return-home" onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
+</div>
+</body>
+</html>
