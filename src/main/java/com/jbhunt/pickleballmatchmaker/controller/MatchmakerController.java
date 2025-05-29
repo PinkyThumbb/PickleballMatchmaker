@@ -1,6 +1,6 @@
 package com.jbhunt.pickleballmatchmaker.controller;
 
-import com.jbhunt.pickleballmatchmaker.helper.DateConversion;
+import com.jbhunt.pickleballmatchmaker.mongo.MatchHistory;
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
 import com.jbhunt.pickleballmatchmaker.service.MatchmakerService;
 import jakarta.validation.Valid;
@@ -50,18 +50,76 @@ public class MatchmakerController {
         return "reportScore";
     }
 
-    @GetMapping("/viewMatchHistory")
-    public String viewMatchHistory(Model model) {
+    @GetMapping("/viewAllPlayers")
+    public String viewAllUsers(Model model) {
         try {
-            var auth = SecurityContextHolder.getContext().getAuthentication();
-            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
-            model.addAttribute("matchHistory", player.get(0).getMatchHistory());
+            List<PickleballUser> players = matchmakerService.findAllUsers();
+            model.addAttribute("players", players);
+            return "FullPlayerList";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve users.");
+            return "FullPlayerList";
+        }
+    }
+
+    @GetMapping("/viewPlayerMatchHistory") public String viewPlayerMatchHistory(@RequestParam(value = "playerUserName", required = false) String playerUserName, @RequestParam(defaultValue = "0") int page, Model model)
+    {
+        try { // Retrieve logged-in user's ID if playerId is not provided
+            if (playerUserName == null || playerUserName.isEmpty()) {
+                var auth = SecurityContextHolder.getContext().getAuthentication();
+                List<PickleballUser> loggedInUser = matchmakerService.findPlayersByUserName(auth.getName());
+                playerUserName = loggedInUser.get(0).getUserName();
+            }
+            List<PickleballUser> player = matchmakerService.findPlayersByUserName(playerUserName);
+            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+
+            // Sort match history by date in descending order
+            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+            // Paginate match history
+            int pageSize = 10;
+            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+            int startIndex = page * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+            model.addAttribute("matchHistory", paginatedHistory);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("playerName", player.get(0).getName());
             return "matchHistory";
         } catch (Exception e) {
-            model.addAttribute("error", "Failed to retrieve match history.");
+            model.addAttribute("error", "Failed to retrieve match history for the player.");
             return "matchHistory";
         }
     }
+
+//    @GetMapping("/viewMatchHistory")
+//    public String viewMatchHistory(@RequestParam(defaultValue = "0") int page, Model model) {
+//        try {
+//            var auth = SecurityContextHolder.getContext().getAuthentication();
+//            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
+//            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+//
+//            // Sort match history by date in descending order
+//            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+//
+//            // Paginate match history
+//            int pageSize = 10;
+//            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+//            int startIndex = page * pageSize;
+//            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+//            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+//
+//            model.addAttribute("matchHistory", paginatedHistory);
+//            model.addAttribute("currentPage", page);
+//            model.addAttribute("totalPages", totalPages);
+//            return "matchHistory";
+//        } catch (Exception e) {
+//            model.addAttribute("error", "Failed to retrieve match history.");
+//            return "matchHistory";
+//        }
+//    }
 
     @GetMapping("/searchPlayersByZipCode")
     public String findPlayersByZipCode(@RequestParam("zipCode") String zipCode, Model model) {

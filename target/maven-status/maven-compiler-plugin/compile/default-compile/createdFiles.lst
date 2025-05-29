@@ -1,5 +1,12 @@
-com\jbhunt\pickleballmatchmaker\service\MatchmakerService.class
-com\jbhunt\pickleballmatchmaker\mongo\PickleballUser.class
+com\jbhunt\pickleballmatchmaker\config\SecurityConfig.class
+com\jbhunt\pickleballmatchmaker\mongo\MatchHistory.class
+com\jbhunt\pickleballmatchmaker\view\MvcConfig.class
 com\jbhunt\pickleballmatchmaker\repository\PickleballUserRepository.class
+com\jbhunt\pickleballmatchmaker\controller\ViewController.class
+com\jbhunt\pickleballmatchmaker\service\UserService.class
+com\jbhunt\pickleballmatchmaker\service\CustomUserDetailsService.class
+com\jbhunt\pickleballmatchmaker\mongo\PickleballUser.class
 com\jbhunt\pickleballmatchmaker\Application.class
 com\jbhunt\pickleballmatchmaker\controller\MatchmakerController.class
+com\jbhunt\pickleballmatchmaker\service\MatchmakerService.class
+com\jbhunt\pickleballmatchmaker\controller\RegistrationController.class

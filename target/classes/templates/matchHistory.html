@@ -39,6 +39,18 @@
       background-color: #007bff;
       color: #fff;
     }
+    .pagination {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pagination a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007bff;
+    }
+    .pagination a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -64,7 +76,11 @@
     </tr>
     </tbody>
   </table>
-  <div class="message" th:if="${error != null}" th:text="${error}"></div>
+  <div class="pagination">
+    <a th:if="${currentPage > 0}" th:href="@{/viewPlayerMatchHistory(page=${currentPage - 1})}">Previous</a>
+    <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/viewPlayerMatchHistory(page=${currentPage + 1})}">Next</a>
+  </div>
   <button class="return-home" onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
 </div>
 </body>
