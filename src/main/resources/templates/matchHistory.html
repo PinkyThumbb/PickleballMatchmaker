@@ -77,9 +77,9 @@
     </tbody>
   </table>
   <div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/viewMatchHistory(page=${currentPage - 1})}">Previous</a>
+    <a th:if="${currentPage > 0}" th:href="@{/viewPlayerMatchHistory(page=${currentPage - 1})}">Previous</a>
     <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
-    <a th:if="${currentPage < totalPages - 1}" th:href="@{/viewMatchHistory(page=${currentPage + 1})}">Next</a>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/viewPlayerMatchHistory(page=${currentPage + 1})}">Next</a>
   </div>
   <button class="return-home" onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
 </div>
