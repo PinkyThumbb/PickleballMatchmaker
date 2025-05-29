@@ -81,23 +81,54 @@ public class MatchmakerService {
     }
 
     public double updatePlayerRating(double currentRating, double opponentRating, boolean win) {
-        // Constants
-        final double K = 0.2;
+        return EloRating(currentRating, opponentRating, win ? 1.0 : 0.0);
+    }
+
+    // Function to calculate the Probability
+    public static double Probability(double rating1, double rating2) {
+        // Calculate and return the expected score
+        return 1.0 / (1 + Math.pow(10, (rating1 - rating2) / 2.0)); // Adjusted for 0-8 scale
+    }
+
+    // Function to calculate Elo rating
+    // K is a constant.
+    // outcome determines the outcome: 1 for Player A win, 0 for Player B win, 0.5 for draw.
+    public static double EloRating(double Ra, double Rb, double outcome) {
+        final int K = 1; // Base adjustment factor
+        final double FLOOR_ADJUSTMENT = 0.01; // Minimum Elo adjustment
+        final double MAX_RATING = 8.0;
         final double MIN_RATING = 0.0;
-        final double MAX_RATING = 6.0;
 
-        // Calculate expected score
-        double expectedScore = 1 / (1 + Math.pow(10, (opponentRating - currentRating) / 400));
+        // Calculate the Winning Probability of Player B
+        double Pb = Probability(Ra, Rb);
 
-        // Determine actual score
-        double actualScore = win ? 1.0 : 0.0;
+        // Calculate the Winning Probability of Player A
+        double Pa = Probability(Rb, Ra);
 
-        // Update rating
-        double newRating = currentRating + K * (actualScore - expectedScore);
+        // Calculate Elo change with refined scaling factor
+        double ratingDifference = Math.abs(Ra - Rb);
+        //double scalingFactor = 1 + (ratingDifference / 4); // Amplify changes for large differences
+        double eloChange = K  * (outcome - Pa);
+
+        // Ensure Elo decreases for losses
+        if (outcome == 0.0 && eloChange > 0) {
+            eloChange = -Math.abs(eloChange);
+        }
+
+        // Apply floor adjustment
+        if (Math.abs(eloChange) < FLOOR_ADJUSTMENT) {
+            eloChange = Math.signum(eloChange) * FLOOR_ADJUSTMENT;
+        }
+
+        // Update the Elo Ratings
+        Ra = Ra + eloChange;
 
         // Clamp the rating to the valid range
-        newRating = Math.max(MIN_RATING, Math.min(MAX_RATING, newRating));
+        Ra = Math.max(MIN_RATING, Math.min(MAX_RATING, Ra));
 
-        return newRating;
+        // Print updated ratings
+        System.out.println("Updated Ratings:-");
+        System.out.println("Ra = " + Ra + " Rb = " + Rb);
+        return Ra;
     }
 }

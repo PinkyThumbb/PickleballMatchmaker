@@ -1,6 +1,5 @@
 package com.jbhunt.pickleballmatchmaker.controller;
 
-import com.jbhunt.pickleballmatchmaker.helper.DateConversion;
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
 import com.jbhunt.pickleballmatchmaker.service.MatchmakerService;
 import jakarta.validation.Valid;
@@ -55,10 +54,10 @@ public class MatchmakerController {
         try {
             List<PickleballUser> players = matchmakerService.findAllUsers();
             model.addAttribute("players", players);
-            return "playerFullList";
+            return "FullPlayerList";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to retrieve users.");
-            return "playerFullList";
+            return "FullPlayerList";
         }
     }
 
