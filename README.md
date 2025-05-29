@@ -21,10 +21,15 @@ Features
 
 
 Technologies Used
+
 -Backend: Java, Spring Boot
+
 -Frontend: Thymeleaf, HTML, CSS
+
 -Database: MongoDB
+
 -Build Tool: Maven
+
 -Security: Spring Security
 
 Installation
