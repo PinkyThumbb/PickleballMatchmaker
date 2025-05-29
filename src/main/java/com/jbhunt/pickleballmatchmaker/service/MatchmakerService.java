@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -49,6 +50,32 @@ public class MatchmakerService {
 
     public List<PickleballUser> findAllUsers() {
         return pickleballUserRepository.findAll();
+    }
+
+    public Map<String, Object> getPaginatedMatchHistory(String playerUserName, int page, int pageSize) {
+        List<PickleballUser> player = pickleballUserRepository.findByUserName(playerUserName);
+        if (player.isEmpty()) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+        if (matchHistory == null || matchHistory.isEmpty()) {
+            return Map.of("paginatedHistory", new ArrayList<>(), "totalPages", 1);
+        }
+
+        // Sort match history by date in descending order
+        matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+        // Calculate pagination details
+        int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+        int startIndex = page * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+        List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+        // Return paginated results and total pages
+        Map<String, Object> result = new HashMap<>();
+        result.put("paginatedHistory", paginatedHistory);
+        result.put("totalPages", totalPages);
+        return result;
     }
 
     public void reportScore(Double opponentRating, boolean win) {
@@ -130,5 +157,74 @@ public class MatchmakerService {
         System.out.println("Updated Ratings:-");
         System.out.println("Ra = " + Ra + " Rb = " + Rb);
         return Ra;
+    }
+
+    public void addFriend(String userName, String friendUserName) {
+        if(userName.equalsIgnoreCase(friendUserName)) {
+            throw new IllegalArgumentException("Cannot add yourself as a friend");
+        }
+
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+        List<PickleballUser> friend = pickleballUserRepository.findByUserName(friendUserName);
+
+        if (user.isEmpty() || friend.isEmpty()) {
+            throw new IllegalArgumentException("User or friend not found");
+        }
+
+        PickleballUser userEntity = user.get(0);
+        PickleballUser friendEntity = friend.get(0);
+        if( userEntity.getFriends() == null ) {
+            userEntity.setFriends(new ArrayList<>());
+        }
+        if (!userEntity.getFriends().contains(friendEntity.getUserName())) {
+            userEntity.getFriends().add(friendEntity);
+            pickleballUserRepository.save(userEntity);
+        }
+        else{
+            throw new IllegalArgumentException("Friend already exists in the user's friend list");
+        }
+    }
+
+    public void removeFriend(String userName, String friendUserName) {
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        PickleballUser userEntity = user.get(0);
+
+        if (userEntity.getFriends() != null && userEntity.getFriends().stream().anyMatch(friend -> friend.getUserName().equalsIgnoreCase(friendUserName))) {
+            userEntity.setFriends(
+                    userEntity.getFriends().stream()
+                            .filter(friend -> !friend.getUserName().equalsIgnoreCase(friendUserName))
+                            .collect(Collectors.toList())
+            );
+            pickleballUserRepository.save(userEntity);
+        } else {
+            throw new IllegalArgumentException("Friend not found in user's friend list");
+        }
+    }
+
+    public List<Map<String, Object>> viewFriends(String userName) {
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        PickleballUser userEntity = user.get(0);
+
+        if (userEntity.getFriends() == null || userEntity.getFriends().isEmpty()) {
+            throw new IllegalArgumentException("No friends found");
+        }
+
+        return userEntity.getFriends().stream()
+                .map(friend -> Map.of(
+                        "userName", friend.getUserName(),
+                        "name", friend.getName(),
+                        "skillLevel", (Object) friend.getSkillLevel()
+                ))
+                .collect(Collectors.toList());
     }
 }

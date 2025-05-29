@@ -41,6 +41,7 @@ public class PickleballUser {
     private String password;
 
     private List<MatchHistory> matchHistory;
+    private List<PickleballUser> friends;
 
     public String getUserName() {
         return userName;

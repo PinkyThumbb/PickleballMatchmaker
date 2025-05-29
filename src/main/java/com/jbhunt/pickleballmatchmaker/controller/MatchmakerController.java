@@ -1,6 +1,5 @@
 package com.jbhunt.pickleballmatchmaker.controller;
 
-import com.jbhunt.pickleballmatchmaker.mongo.MatchHistory;
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
 import com.jbhunt.pickleballmatchmaker.service.MatchmakerService;
 import jakarta.validation.Valid;
@@ -55,71 +54,35 @@ public class MatchmakerController {
         try {
             List<PickleballUser> players = matchmakerService.findAllUsers();
             model.addAttribute("players", players);
-            return "FullPlayerList";
+            return "fullPlayerList";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to retrieve users.");
-            return "FullPlayerList";
+            return "fullPlayerList";
         }
     }
 
-    @GetMapping("/viewPlayerMatchHistory") public String viewPlayerMatchHistory(@RequestParam(value = "playerUserName", required = false) String playerUserName, @RequestParam(defaultValue = "0") int page, Model model)
-    {
-        try { // Retrieve logged-in user's ID if playerId is not provided
+    @GetMapping("/viewPlayerMatchHistory")
+    public String viewPlayerMatchHistory(@RequestParam(value = "playerId", required = false) String playerUserName, @RequestParam(defaultValue = "0") int page, Model model) {
+        try {
             if (playerUserName == null || playerUserName.isEmpty()) {
                 var auth = SecurityContextHolder.getContext().getAuthentication();
                 List<PickleballUser> loggedInUser = matchmakerService.findPlayersByUserName(auth.getName());
                 playerUserName = loggedInUser.get(0).getUserName();
             }
-            List<PickleballUser> player = matchmakerService.findPlayersByUserName(playerUserName);
-            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
 
-            // Sort match history by date in descending order
-            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
-
-            // Paginate match history
             int pageSize = 10;
-            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
-            int startIndex = page * pageSize;
-            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
-            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+            Map<String, Object> paginatedData = matchmakerService.getPaginatedMatchHistory(playerUserName, page, pageSize);
 
-            model.addAttribute("matchHistory", paginatedHistory);
+            model.addAttribute("matchHistory", paginatedData.get("paginatedHistory"));
             model.addAttribute("currentPage", page);
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("playerName", player.get(0).getName());
+            model.addAttribute("totalPages", paginatedData.get("totalPages"));
+            model.addAttribute("playerName", playerUserName);
             return "matchHistory";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to retrieve match history for the player.");
             return "matchHistory";
         }
     }
-
-//    @GetMapping("/viewMatchHistory")
-//    public String viewMatchHistory(@RequestParam(defaultValue = "0") int page, Model model) {
-//        try {
-//            var auth = SecurityContextHolder.getContext().getAuthentication();
-//            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
-//            List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
-//
-//            // Sort match history by date in descending order
-//            matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
-//
-//            // Paginate match history
-//            int pageSize = 10;
-//            int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
-//            int startIndex = page * pageSize;
-//            int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
-//            List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
-//
-//            model.addAttribute("matchHistory", paginatedHistory);
-//            model.addAttribute("currentPage", page);
-//            model.addAttribute("totalPages", totalPages);
-//            return "matchHistory";
-//        } catch (Exception e) {
-//            model.addAttribute("error", "Failed to retrieve match history.");
-//            return "matchHistory";
-//        }
-//    }
 
     @GetMapping("/searchPlayersByZipCode")
     public String findPlayersByZipCode(@RequestParam("zipCode") String zipCode, Model model) {
@@ -155,6 +118,44 @@ public class MatchmakerController {
         } catch (Exception e) {
             model.addAttribute("error", "Random error");
             return "skillLevelSearch";
+        }
+    }
+    @GetMapping("/addFriendForm")
+    public String addFriendForm(Model model) {
+        return "addFriend";
+    }
+    @PostMapping("/addFriend")
+    public ResponseEntity<String> addFriend(@RequestParam String friendUserName) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            matchmakerService.addFriend(auth.getName(), friendUserName);
+            return ResponseEntity.ok("Friend added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add friend");
+        }
+    }
+
+    @DeleteMapping("/removeFriend")
+    public ResponseEntity<String> removeFriend(@RequestParam String friendUserName) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            matchmakerService.removeFriend(auth.getName(), friendUserName);
+            return ResponseEntity.ok("Friend removed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to remove friend");
+        }
+    }
+
+    @GetMapping("/viewFriends")
+    public String viewFriends(Model model) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            List<Map<String, Object>> friends = matchmakerService.viewFriends(auth.getName());
+            model.addAttribute("friends", friends);
+            return "friendsList";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve friends list.");
+            return "friendsList";
         }
     }
 }

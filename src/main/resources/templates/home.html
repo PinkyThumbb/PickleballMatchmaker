@@ -26,6 +26,9 @@
         h1 {
             color: #333;
         }
+        .button-group {
+            margin-bottom: 20px;
+        }
         button {
             padding: 10px 20px;
             margin: 10px;
@@ -40,7 +43,6 @@
         }
         .logout-button {
             background-color: #dc3545;
-            margin-top: 30px;
         }
         .logout-button:hover {
             background-color: #c82333;
@@ -49,13 +51,17 @@
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to Pickleball Matchmaker</h1>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/zipCodeSearch'">Find Players by Zip Code</button>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/skillLevelSearch'">Find Players by Skill Level</button>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/userNameSearch'">Find Players by Username</button>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/reportScore'">Report Match Results</button>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/viewPlayerMatchHistory'">View Player's Match History</button>
-    <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/viewAllPlayers'">Full List</button>
+    <h1>Welcome to Pickleball Connect</h1>
+    <div class="button-group">
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/zipCodeSearch'">Find Players by Zip Code</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/skillLevelSearch'">Find Players by Skill Level</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/userNameSearch'">Find Players by Username</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/reportScore'">Report Match Results</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/viewPlayerMatchHistory'">View Your Match History</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/viewAllPlayers'">View All Players and Match History</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/viewFriends'">View Friends</button>
+        <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/addFriendForm'">Add Friends</button>
+    </div>
     <button class="logout-button" onclick="location.href='/ws_bensprojects_pickleballmatchmaker/login'">Logout</button>
 </div>
 </body>

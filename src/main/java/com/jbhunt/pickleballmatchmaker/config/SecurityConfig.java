@@ -20,6 +20,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login", "/register", "/findPlayersByZipCode", "/zipCodeSearch", "/skillLevelSearch", "/findPlayersBySkillLevel","/reportScore").permitAll()
+                        .requestMatchers("/addFriend").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
