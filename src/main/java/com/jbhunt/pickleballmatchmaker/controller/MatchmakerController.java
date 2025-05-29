@@ -50,6 +50,31 @@ public class MatchmakerController {
         return "reportScore";
     }
 
+    @GetMapping("/viewAllPlayers")
+    public String viewAllUsers(Model model) {
+        try {
+            List<PickleballUser> players = matchmakerService.findAllUsers();
+            model.addAttribute("players", players);
+            return "playerFullList";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve users.");
+            return "playerFullList";
+        }
+    }
+
+    @GetMapping("/viewPlayerMatchHistory")
+    public String viewPlayerMatchHistory(@RequestParam("playerId") String playerId, Model model) {
+        try {
+            List<PickleballUser> player = matchmakerService.findPlayersByUserName(playerId);
+            model.addAttribute("matchHistory", player.get(0).getMatchHistory());
+            model.addAttribute("playerName", player.get(0).getName());
+            return "matchHistory";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve match history for the player.");
+            return "matchHistory";
+        }
+    }
+
     @GetMapping("/viewMatchHistory")
     public String viewMatchHistory(Model model) {
         try {

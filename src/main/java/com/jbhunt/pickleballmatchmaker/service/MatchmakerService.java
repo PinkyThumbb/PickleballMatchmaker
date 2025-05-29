@@ -47,7 +47,10 @@ public class MatchmakerService {
         return pickleballUserRepository.findBySkillLevelBetween(skillLevelLower, skillLevelUpper);
     }
 
-    //make new method to query current skill rating and post new one after match ends
+    public List<PickleballUser> findAllUsers() {
+        return pickleballUserRepository.findAll();
+    }
+
     public void reportScore(Double opponentRating, boolean win) {
         // Retrieve the logged-in user
         var auth = SecurityContextHolder.getContext().getAuthentication();
