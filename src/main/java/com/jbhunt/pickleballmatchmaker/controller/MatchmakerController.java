@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,12 @@ public class MatchmakerController {
             log.error("Unexpected error", e);
             return new ResponseEntity<>(Map.of("error","Error saving user to database"), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/reportGameScore")
+    public String reportGameScore(Integer opponentRating, boolean win) {
+        matchmakerService.reportScore(opponentRating,win);
+        return "reportScore";
     }
 
     @GetMapping("/searchPlayersByZipCode")
