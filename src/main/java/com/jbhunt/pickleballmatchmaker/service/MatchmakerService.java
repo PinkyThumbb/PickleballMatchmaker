@@ -51,6 +51,32 @@ public class MatchmakerService {
         return pickleballUserRepository.findAll();
     }
 
+    public Map<String, Object> getPaginatedMatchHistory(String playerUserName, int page, int pageSize) {
+        List<PickleballUser> player = pickleballUserRepository.findByUserName(playerUserName);
+        if (player.isEmpty()) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        List<MatchHistory> matchHistory = player.get(0).getMatchHistory();
+        if (matchHistory == null || matchHistory.isEmpty()) {
+            return Map.of("paginatedHistory", new ArrayList<>(), "totalPages", 1);
+        }
+
+        // Sort match history by date in descending order
+        matchHistory.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
+
+        // Calculate pagination details
+        int totalPages = (int) Math.ceil((double) matchHistory.size() / pageSize);
+        int startIndex = page * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, matchHistory.size());
+        List<MatchHistory> paginatedHistory = matchHistory.subList(startIndex, endIndex);
+
+        // Return paginated results and total pages
+        Map<String, Object> result = new HashMap<>();
+        result.put("paginatedHistory", paginatedHistory);
+        result.put("totalPages", totalPages);
+        return result;
+    }
+
     public void reportScore(Double opponentRating, boolean win) {
         // Retrieve the logged-in user
         var auth = SecurityContextHolder.getContext().getAuthentication();
