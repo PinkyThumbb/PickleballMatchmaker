@@ -87,7 +87,7 @@ public class MatchmakerService {
     // Function to calculate the Probability
     public static double Probability(double rating1, double rating2) {
         // Calculate and return the expected score
-        return 1.0 / (1 + Math.pow(10, (rating1 - rating2) / 2.0)); // Adjusted for 0-8 scale
+        return 1.0 / (1 + Math.pow(10, (rating1 - rating2) / 10.0)); // Adjusted for 0-8 scale
     }
 
     // Function to calculate Elo rating
@@ -107,8 +107,8 @@ public class MatchmakerService {
 
         // Calculate Elo change with refined scaling factor
         double ratingDifference = Math.abs(Ra - Rb);
-        //double scalingFactor = 1 + (ratingDifference / 4); // Amplify changes for large differences
-        double eloChange = K  * (outcome - Pa);
+        double scalingFactor = ratingDifference > 1 ? 1 + (ratingDifference / 12) : 0.2; // Dampen close matchups
+        double eloChange = K * scalingFactor * (outcome - Pa);
 
         // Ensure Elo decreases for losses
         if (outcome == 0.0 && eloChange > 0) {
