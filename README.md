@@ -33,10 +33,13 @@ Run the application:
 mvn spring-boot:run
 
 Usage
-Open the application in your browser at http://localhost:8080.
-Register or log in to access the app's features.
-Use the home page to navigate to player search, match reporting, or match history.
-View and manage player profiles and match results.
+
+-Open the application in your browser at http://localhost:8080.
+-Register or log in to access the app's features.
+-Use the home page to navigate to player search, match reporting, or match history.
+-View and manage player profiles and match results.
+
 
 License
+
 This project is licensed under the MIT License.
