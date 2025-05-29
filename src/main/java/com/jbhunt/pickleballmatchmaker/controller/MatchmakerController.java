@@ -36,9 +36,30 @@ public class MatchmakerController {
     }
 
     @GetMapping("/reportGameScore")
-    public String reportGameScore(Integer opponentRating, boolean win) {
-        matchmakerService.reportScore(opponentRating,win);
+    public String reportGameScore(@RequestParam Double opponentRating, @RequestParam boolean win, Model model) {
+        try {
+            matchmakerService.reportScore(opponentRating, win);
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
+            model.addAttribute("success", "Game score reported successfully!");
+            model.addAttribute("newSkillLevel", player.get(0).getSkillLevel());
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to report game score.");
+        }
         return "reportScore";
+    }
+
+    @GetMapping("/viewMatchHistory")
+    public String viewMatchHistory(Model model) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            List<PickleballUser> player = matchmakerService.findPlayersByUserName(auth.getName());
+            model.addAttribute("matchHistory", player.get(0).getMatchHistory());
+            return "matchHistory";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve match history.");
+            return "matchHistory";
+        }
     }
 
     @GetMapping("/searchPlayersByZipCode")

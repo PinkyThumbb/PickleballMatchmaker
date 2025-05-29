@@ -1,5 +1,6 @@
 package com.jbhunt.pickleballmatchmaker.service;
 
+import com.jbhunt.pickleballmatchmaker.mongo.MatchHistory;
 import com.jbhunt.pickleballmatchmaker.mongo.PickleballUser;
 import com.jbhunt.pickleballmatchmaker.repository.PickleballUserRepository;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +48,32 @@ public class MatchmakerService {
     }
 
     //make new method to query current skill rating and post new one after match ends
-    public void reportScore(Integer opponent, boolean win) {
+    public void reportScore(Double opponentRating, boolean win) {
+        // Retrieve the logged-in user
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Auth name: " + auth.getName());
         List<PickleballUser> player = pickleballUserRepository.findByUserName(auth.getName());
 
-
         PickleballUser player1 = player.get(0);
-        double updatedSkillLevel = updatePlayerRating(player1.getSkillLevel(), opponent, win);
+
+        // Update the player's skill level
+        double updatedSkillLevel = updatePlayerRating(player1.getSkillLevel(), opponentRating, win);
         player1.setSkillLevel(Math.round(updatedSkillLevel * 100.0) / 100.0);
+
+        // Create a new match history entry
+        MatchHistory matchHistory = new MatchHistory();
+        matchHistory.setOpponentName("Opponent"); // Replace with actual opponent name if available
+        matchHistory.setOpponentRating(opponentRating);
+        matchHistory.setWin(win);
+        matchHistory.setUpdatedSkillLevel(player1.getSkillLevel());
+        matchHistory.setMatchDate(LocalDateTime.now());
+
+        // Add the match history entry to the user's match history
+        if (player1.getMatchHistory() == null) {
+            player1.setMatchHistory(new ArrayList<>());
+        }
+        player1.getMatchHistory().add(matchHistory);
+
+        // Save the updated user back to the database
         pickleballUserRepository.save(player1);
     }
 

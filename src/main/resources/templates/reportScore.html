@@ -74,15 +74,27 @@
   <h1>Report Game Score</h1>
   <form action="/ws_bensprojects_pickleballmatchmaker/reportGameScore" method="get">
     <label for="opponentRating">Opponent Rating:</label>
-    <input type="number" id="opponentRating" name="opponentRating" required>
+    <input type="number" id="opponentRating" name="opponentRating" step="0.01" required>
 
     <label for="win">Game Won:</label>
-    <input type="checkbox" id="win" name="win">
+    <input type="checkbox" id="win" name="winCheckbox" onchange="updateWinValue()">
+    <input type="hidden" id="winValue" name="win" value="false">
+
+    <script>
+      function updateWinValue() {
+        const checkbox = document.getElementById('win');
+        const hiddenInput = document.getElementById('winValue');
+        hiddenInput.value = checkbox.checked ? "true" : "false";
+      }
+    </script>
 
     <button type="submit">Report Score</button>
   </form>
   <div class="message" th:if="${success != null}" th:text="${success}"></div>
   <div class="message" th:if="${error != null}" th:text="${error}"></div>
+  <div class="message" th:if="${newSkillLevel != null}">
+    <p>Your new skill level: <span th:text="${newSkillLevel}"></span></p>
+  </div>
   <button class="return-home" onclick="window.location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
 </div>
 </body>

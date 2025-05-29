@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Document(collection = "pickleballUser")
 @Data
 @AllArgsConstructor
@@ -37,6 +39,8 @@ public class PickleballUser {
 
     @NotNull
     private String password;
+
+    private List<MatchHistory> matchHistory;
 
     public String getUserName() {
         return userName;
