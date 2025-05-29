@@ -27,7 +27,7 @@ Pickleball Matchmaker is a Spring Boot web application designed for pickleball e
 ## Installation
 1. **Clone the repository**:  
    ```bash
-   git clone https://github.com/benjamin-r-coco_jbhunt/pickleball-matchmaker.git
+   git clone https://github.com/PinkyThumbb/PickleballMatchmaker.git
 2. Navigate to the project directory: cd pickleball-matchmaker
 3. Build the project: mvn clean install
 4. Run the application: mvn spring-boot:run
