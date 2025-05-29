@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -159,6 +160,10 @@ public class MatchmakerService {
     }
 
     public void addFriend(String userName, String friendUserName) {
+        if(userName.equalsIgnoreCase(friendUserName)) {
+            throw new IllegalArgumentException("Cannot add yourself as a friend");
+        }
+
         List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
         List<PickleballUser> friend = pickleballUserRepository.findByUserName(friendUserName);
 
@@ -167,11 +172,12 @@ public class MatchmakerService {
         }
 
         PickleballUser userEntity = user.get(0);
+        PickleballUser friendEntity = friend.get(0);
         if( userEntity.getFriends() == null ) {
             userEntity.setFriends(new ArrayList<>());
         }
-        if (!userEntity.getFriends().contains(friendUserName)) {
-            userEntity.getFriends().add(friendUserName);
+        if (!userEntity.getFriends().contains(friendEntity.getUserName())) {
+            userEntity.getFriends().add(friendEntity);
             pickleballUserRepository.save(userEntity);
         }
         else{
@@ -187,17 +193,38 @@ public class MatchmakerService {
         }
 
         PickleballUser userEntity = user.get(0);
-        userEntity.getFriends().remove(friendUserName);
-        pickleballUserRepository.save(userEntity);
+
+        if (userEntity.getFriends() != null && userEntity.getFriends().stream().anyMatch(friend -> friend.getUserName().equalsIgnoreCase(friendUserName))) {
+            userEntity.setFriends(
+                    userEntity.getFriends().stream()
+                            .filter(friend -> !friend.getUserName().equalsIgnoreCase(friendUserName))
+                            .collect(Collectors.toList())
+            );
+            pickleballUserRepository.save(userEntity);
+        } else {
+            throw new IllegalArgumentException("Friend not found in user's friend list");
+        }
     }
 
-    public List<String> viewFriends(String userName) {
+    public List<Map<String, Object>> viewFriends(String userName) {
         List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
 
         if (user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
 
-        return user.get(0).getFriends();
+        PickleballUser userEntity = user.get(0);
+
+        if (userEntity.getFriends() == null || userEntity.getFriends().isEmpty()) {
+            throw new IllegalArgumentException("No friends found");
+        }
+
+        return userEntity.getFriends().stream()
+                .map(friend -> Map.of(
+                        "userName", friend.getUserName(),
+                        "name", friend.getName(),
+                        "skillLevel", (Object) friend.getSkillLevel()
+                ))
+                .collect(Collectors.toList());
     }
 }

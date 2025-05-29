@@ -150,7 +150,7 @@ public class MatchmakerController {
     public String viewFriends(Model model) {
         try {
             var auth = SecurityContextHolder.getContext().getAuthentication();
-            List<String> friends = matchmakerService.viewFriends(auth.getName());
+            List<Map<String, Object>> friends = matchmakerService.viewFriends(auth.getName());
             model.addAttribute("friends", friends);
             return "friendsList";
         } catch (Exception e) {

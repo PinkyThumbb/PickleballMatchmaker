@@ -32,6 +32,12 @@
     }
     li {
       margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .friend-info {
+      flex-grow: 1;
     }
     button {
       padding: 5px 10px;
@@ -51,8 +57,13 @@
   <h1>Your Friends</h1>
   <ul>
     <li th:each="friend : ${friends}">
-      <span th:text="${friend}"></span>
-      <button th:onclick="'location.href=\'/removeFriend?friendUserName=' + ${friend} + '\''">Remove</button>
+      <span class="friend-info" th:text="'Name: ' + ${friend.name} + ', Skill Level: ' + ${friend.skillLevel}"></span>
+      <form th:action="@{/removeFriend}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="friendUserName" th:value="${friend.userName}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <button type="submit">Remove</button>
+      </form>
     </li>
   </ul>
   <button onclick="location.href='/ws_bensprojects_pickleballmatchmaker/home'">Return to Home</button>
