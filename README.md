@@ -7,12 +7,18 @@ Pickleball Matchmaker is a Spring Boot web application designed to help pickleba
 
 Features
 
--Player Search: Find players by zip code, skill level range, or username.\n
--Match Reporting: Report match results and update player skill levels based on an Elo rating system.\n
--Match History: View detailed match history for individual players, including opponent ratings, match outcomes, and updated skill levels.\n
--Pagination: Match history is paginated for easy navigation, displaying 10 results per page.\n
--Player List: View all registered players and click on individual profiles to see their match history.\n
--Authentication: Secure login system to ensure personalized access to player data.\n
+-Player Search: Find players by zip code, skill level range, or username.
+
+-Match Reporting: Report match results and update player skill levels based on an Elo rating system.
+
+-Match History: View detailed match history for individual players, including opponent ratings, match outcomes, and updated skill levels.
+
+-Pagination: Match history is paginated for easy navigation, displaying 10 results per page.
+
+-Player List: View all registered players and click on individual profiles to see their match history.
+
+-Authentication: Secure login system to ensure personalized access to player data.
+
 
 Technologies Used
 -Backend: Java, Spring Boot
