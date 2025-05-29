@@ -120,4 +120,42 @@ public class MatchmakerController {
             return "skillLevelSearch";
         }
     }
+    @GetMapping("/addFriendForm")
+    public String addFriendForm(Model model) {
+        return "addFriend";
+    }
+    @PostMapping("/addFriend")
+    public ResponseEntity<String> addFriend(@RequestParam String friendUserName) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            matchmakerService.addFriend(auth.getName(), friendUserName);
+            return ResponseEntity.ok("Friend added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add friend");
+        }
+    }
+
+    @DeleteMapping("/removeFriend")
+    public ResponseEntity<String> removeFriend(@RequestParam String friendUserName) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            matchmakerService.removeFriend(auth.getName(), friendUserName);
+            return ResponseEntity.ok("Friend removed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to remove friend");
+        }
+    }
+
+    @GetMapping("/viewFriends")
+    public String viewFriends(Model model) {
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            List<String> friends = matchmakerService.viewFriends(auth.getName());
+            model.addAttribute("friends", friends);
+            return "friendsList";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to retrieve friends list.");
+            return "friendsList";
+        }
+    }
 }

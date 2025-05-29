@@ -157,4 +157,47 @@ public class MatchmakerService {
         System.out.println("Ra = " + Ra + " Rb = " + Rb);
         return Ra;
     }
+
+    public void addFriend(String userName, String friendUserName) {
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+        List<PickleballUser> friend = pickleballUserRepository.findByUserName(friendUserName);
+
+        if (user.isEmpty() || friend.isEmpty()) {
+            throw new IllegalArgumentException("User or friend not found");
+        }
+
+        PickleballUser userEntity = user.get(0);
+        if( userEntity.getFriends() == null ) {
+            userEntity.setFriends(new ArrayList<>());
+        }
+        if (!userEntity.getFriends().contains(friendUserName)) {
+            userEntity.getFriends().add(friendUserName);
+            pickleballUserRepository.save(userEntity);
+        }
+        else{
+            throw new IllegalArgumentException("Friend already exists in the user's friend list");
+        }
+    }
+
+    public void removeFriend(String userName, String friendUserName) {
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        PickleballUser userEntity = user.get(0);
+        userEntity.getFriends().remove(friendUserName);
+        pickleballUserRepository.save(userEntity);
+    }
+
+    public List<String> viewFriends(String userName) {
+        List<PickleballUser> user = pickleballUserRepository.findByUserName(userName);
+
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        return user.get(0).getFriends();
+    }
 }
